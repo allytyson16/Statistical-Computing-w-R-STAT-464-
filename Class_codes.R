@@ -465,8 +465,13 @@ sapply(c(72, 45, 56, 84), perf_eval)
 
 
 
+###DATA VISUALIZATION
 
+#HISTOGRM <-  uses the hist function 
+hist(iris$Sepal.Length, col = "beige", xlab = "Sepal Length", main = "")
 
+##BOXPLOT 
+boxplot(iris$Sepal.Length, col = "skyblue")
 
 
 
