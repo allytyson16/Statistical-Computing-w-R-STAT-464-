@@ -266,11 +266,68 @@ Alge_func(x = 5, y = 2)
 #mean
 #standard deviation
 
+##quadratic
+Quad_func <- function(x)
+{
+  quad_func <- x**2 + x + 7
+  print(quad_func)
+}
+Quad_func(2)
+
+##cubic 
+Cubic_func <- function(y)
+{
+  cube_func <- 2*y^3 - 5*y^2 + y -7
+  print(cube_func)
+}
+Cubic_func(4)
+
+##rational function
+Rat_func <- function(m)
+{
+  numerator <- m^2 + 2*m +1
+  denominator <- m -3
+  ratnl_func <- numerator/ denominator
+  return(ratnl_func)
+}
+Rat_func(4)
+
+
+##mean
 
 
 
 
+
+#######LOOPS
+####FOR LOOPS
+for (i in 1:10)
+{
+  print(i^2)
+}
+
+for (x in 1:5)
+{
+  for (y in 5:12)
+  {
+    print(Alge_func(x, y))
+  }
+}
+##try and add a column for when i is a number then 
+##we see the addition, subtraction & square difference
  
+##WHILE LOOPS
+
+
+
+
+
+
+
+
+
+
+
 
 
 
