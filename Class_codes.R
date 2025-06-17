@@ -317,6 +317,152 @@ for (x in 1:5)
 ##we see the addition, subtraction & square difference
  
 ##WHILE LOOPS
+numb <- 2
+while (numb <= 30)
+{
+  numb <- numb + 2
+  print(numb)
+} 
+##look at code again
+
+
+##REPEATED loop 
+#repeats till forever, so it is advisable to add the if command to stop it.
+repeat
+{
+  print(numb)
+  numb <- numb + 2
+  if (numb >= 40)
+    break
+}
+ 
+
+##NEXT STATEMENT
+#USED IN LOOPS/ STATEMNETS TO STOP/ BREAK THE CODE.
+
+
+
+#Apply loops, 
+##Lapply function <-  used on either lists or vectors
+lapply(1:5, function(x) x^2 - 4) 
+#retuns a list, hence we have to unlist it
+unlist(lapply(1:5, function(x) x^2 - 4))
+
+##sapply <- returns a vector
+sapply(1:5, function(x) x^2 - 4)
+
+##apply <- used only on matrices and arrays
+apply(Mat_A, 1, FUN = function(x) sum(x^2))   #1 is for row and 2- column
+##squared the entries of the matrix & sum the rows 
+
+##mapply <-  multivariate version of lapply
+mapply(Alge_func, x = 1:5, y = 5:12)
+
+##tapply <- usually on vectors
+
+
+##CONDITIONAL STATEMENTS
+x <- 4
+if (x>=2)
+{
+  print("number is greater than 2")
+}
+
+func_1 <- function(x)
+{
+  if (x>= 2)
+  {
+    print("The number is greater than 2.")
+  }
+  else
+  {
+    print("The number is less than 2")
+  }
+}
+
+vec_1 <- c(5, 1, 3, 7, 0)
+func_1(vec_1[1])
+func_1(vec_1[2])   #does not output anything because 1<2
+func_1(vec_1[3])
+func_1(vec_1[4])
+func_1(vec_1[5])    #does not output anything because 1<2
+
+##alternatively
+vec_1 <- c(5, 1, 3, 7, 0)
+sapply(vec_1, func_1)
+
+##alternatively (best)
+for (i in vec_1)
+{
+    func_1(i)
+}
+
+p_val_int <- function(p_val, alpha = 0.05)
+{
+  if (p_val >= alpha)
+  {
+    print("Fail to reject H0")
+  }
+  else{
+    print("Reject H0")
+  }
+}
+
+p_val_int(0.04)
+##generating numbers as p_avlue
+pvalue <- runif(10, 0, 1)  
+for (i in pvalue)
+{
+  p_val_int(i)
+}
+
+p_val_int1 <- function(p_val, alpha = 0.05)
+{
+  ifelse(p_val >= alpha, "Fail to Reject H0", "Reject H0")
+}
+for (i in pvalue)
+{
+  print(p_val_int1(i))
+}
+
+
+###assignment score
+# 80 + <-  excellent
+# 70+  very good
+# 50≠ <- average
+# below <- poor
+
+perf_eval <- function(x)
+{
+  if (x > 80 )
+  {
+    Perf <- "Excellent"
+  }
+  else if (x < 80 & x > 70)
+  {
+    Perf <- "Very Good"
+  }
+  else if (x < 70 & x > 50)
+  {
+    Perf <- "Average"
+  }
+  else
+  {
+    Perf <- "Poor performance"
+  }
+    return(c(x, Perf))
+}
+
+perf_eval(85)
+sapply(c(72, 45, 56, 84), perf_eval)
+
+###ASSIGNMENT 1
+# 1.(a) write an function that will generate grades based on the UG undergraduate grading system
+#  (b) apply this on any 25 randomly generated marks.
+# 2. (a) Do a similar for class categories based on GPA
+#    (b) Generate 20 random GPA & apply the function to them
+
+
 
 
 
