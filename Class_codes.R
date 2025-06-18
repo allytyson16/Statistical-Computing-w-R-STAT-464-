@@ -473,6 +473,42 @@ hist(iris$Sepal.Length, col = "beige", xlab = "Sepal Length", main = "")
 ##BOXPLOT 
 boxplot(iris$Sepal.Length, col = "skyblue")
 
+#Barchat
+barplot(table(iris$Species))
+
+
+#Piechart
+pie
+
+
+#DISTRIBUTIONAL PLOTA
+#qqplots
+qqnorm(iris$Sepal.Length)
+qqline(iris$Sepal.Length) #Deviation from the line means deviation from normal
+
+#density plot
+plot(density(iris$Sepal.Length))
+
+
+
+#Adding Plots to Another plot
+
+X<-seq(-4,10, length.out=1000)
+Y_1 <- dnorm(X, mean = 5, sd = 2)
+Y_2 <- dnorm(X, mean = 5, sd = 4)
+Y_3 <- dnorm(X, mean = 6, sd = 4)
+
+plot(X, Y_1, main = "comparing normal Dist", 
+     xlab = "variable",
+     ylab = "Density",
+     type = "l")
+
+points(X, Y_3, type = "l", col="red", )
+points(X, Y_3, type = "l", col="green", )
+legend("topleft", legend = c("Mean = 5, sd = 2", "Mean = 5, sd = 4",
+                             "Mean = 6, sd = 4"),
+       col = c("black", "red", "green"), lty =1)
+
 
 
 
