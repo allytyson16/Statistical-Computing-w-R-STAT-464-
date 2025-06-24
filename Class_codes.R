@@ -509,14 +509,105 @@ legend("topleft", legend = c("Mean = 5, sd = 2", "Mean = 5, sd = 4",
                              "Mean = 6, sd = 4"),
        col = c("black", "red", "green"), lty =1)
 
+X_n <- seq(-4, 4, by = 0.001)
+W_1 <- dnorm(X_n)
+W_2 <- dt(X_n, 100)
+W_3 <- dt(X_n, 1000000)
+
+plot(X_n, W_1, type = "l")
+plot(X_n, W_2, type = "l", col = "brown")
+lines(X_n, W_2, type = "l", col = "green")    #problem running these codes, I just see the curve change color 
+                                              # and there is not more than 1 curve
 
 
 
+####### CURVES FOR CUSTOM FUNCTIONS
+funct_1 <- function(x)
+{
+  x^2 - 4
+}
+
+curve(funct_1, from = -3, to = 3)
+
+dat1 <- rnorm(100, mean = 10, sd = 4)
+hist(dat1, probability = TRUE, col = "beige")
+curve(dnorm(x, mean = 10, sd = 4), add = TRUE, col = "red")
 
 
 
+##CENTRAL LIMIT THEORY (ASSIGNMENT)
+
+## SAMPLING DISTRIBUTION 
+#mean(normal): (X bar) ~ N( mu, sigma^2/ n)
+
+n <- 20     #sampling size
+N <- 1000   # replicate
+mu <- 30
+zigma <- 10
+
+sample_norm <- replicate(N, {sample <- rnorm(20, mu, zigma)})
+sample_means <- colMeans(sample_norm)   
+
+hist(sample_means, probability = TRUE)
+curve(dnorm(x, mean = mu, sd = zigma/sqrt(n)), add = TRUE)
+
+
+#(standard normal): (X bar - mu)/ (sigma/sqrt(n)) ~ N( 0, 1)
+sample_means_std <- (sample_means - mu)/ (zigma/ sqrt(n))
+hist(sample_means_std, probability = TRUE)
+curve(dnorm(x), add = TRUE)
+
+#alternatively (replicate/ matrix)
+samples  <- matrix(rnorm(N*n, mu, zigma), nrow = n)
+
+##(n-1)S^2 / sigma^2 ~ chi square, df = n-1
+sample_vars <- apply(samples, 2, var)     #sample variances
+sample_vars_trans <- (n-1)*sample_vars / (zigma ^2)   #transforming them to chi square
+hist(sample_vars_trans, probability = TRUE)
+curve(dchisq(x, df = n-1), add = TRUE)
+
+## EXPONENTIAL
+#Xi ~ Exp(theta)
+#####2n theta S^2 / sigma^2  ~ chi sqr with 2n df
+theta <- 4
+samples_exp <-  replicate(N, {sample <- rexp(n, rate = theta)})
+samples_exp_mean <- apply(samples_exp, 2, mean)
+samples_exp_mean_trans <- 2 * n * theta*samples_exp_mean
+hist(samples_exp_mean_trans, probability = TRUE)
+curve(dchisq(x, df = 2*n), add = TRUE)   #why??????
+
+
+###2nthetaX(1) ~ chi ^2, 2
+samples_exp <- replicate(N, {sample <- rexp(n, rate = theta)})
+samples_exp_min <- apply(samples_exp, 2, min)
+samples_exp_min_trans <- 2 * n * theta*samples_exp_min
+hist(samples_exp_min_trans, probability = TRUE)
+curve(dchisq(x, df = 2), add = TRUE)   #why??????
+
+## UNIFORM 
+#Xi ~ U(0, Beta)
+# -2∑ln (xi/Beta) ~ chi_2n ^ 2
+beta <- 10
+samples_unif <- replicate(N, sample <- runif(n, min = 0, max = beta))
+samples_unif_trans1 <- log((samples_unif)/ beta)
+samples_unif_trans2 <- -2 * apply(samples_unif_trans1, 2, sum)
+hist(samples_unif_trans2, probability = TRUE, col = "beige")
+curve(dchisq(x, df= 2*n), add = TRUE, lwd = 2, col = "red")
+
+
+##write & run R scripts to confirm the ff:
+## 1) Given that f(xi) = theta * exp ^-(theta(x-2))
+#       2ntheta(mean(xbar) - 2) ~ chi_2n ^2
+## ii) Xi ~ U(a, b)
+## (a) -2n∑ln((Xi -a)/ b-a) ~ chi_2n ^ 2
+## (b) -2nln((X(n) -a)/ b-a) ~ chi_2 ^ 2
+## iii) If Xi ! U(0, 1)
+##      -2nG_x M ~ chi_2n ^2
 
 
 
-
-
+## 3D graphs
+x <- seq(-1, 1, by = 0.1)
+y <- seq(-1, 1, by = 0.1)
+z <- outer(x, y, function(x, y) x^2 + y^2)          #outer function
+persp(x, y, z, phi = 15, col = c("red", "blue"))
