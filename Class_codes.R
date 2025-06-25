@@ -610,4 +610,29 @@ curve(dchisq(x, df= 2*n), add = TRUE, lwd = 2, col = "red")
 x <- seq(-1, 1, by = 0.1)
 y <- seq(-1, 1, by = 0.1)
 z <- outer(x, y, function(x, y) x^2 + y^2)          #outer function
-persp(x, y, z, phi = 15, col = c("red", "blue"))
+persp(x, y, z, phi = 15, col = c("red", "blue"))    #can change the value of phi, 
+                                                    #to see from other perspectives
+
+##INVERSE TRANSFORM METHOD OF SIMULATION
+U <-  runif(1000, 0.1)
+x <- U^(1/3)
+hist(x, probability = TRUE, col = "beige")
+#superimpose pdf to see if that is the case.
+curve(3*x^2, from = 0, to = 1, add = TRUE, col="red", lwd = 1.5)  #why is my graph looking funny?
+mean(x)
+var(x)
+
+#exponential distribution
+theta <- 5
+Y <-  -(log(1-U))/theta
+hist(Y, probability = TRUE, col = "beige")
+#line(3*x^2, rate = theta, col="blue", lwd = 1.5)       the line did not work for me
+curve(dexp(3*x^2, rate = theta),  add = TRUE, col="blue", lwd = 1.5)
+
+
+
+
+
+
+
+
