@@ -632,6 +632,19 @@ curve(dexp(3*x^2, rate = theta),  add = TRUE, col="blue", lwd = 1.5)
 
 
 
+###ACCEPTANCE REJECTION SAMPLING
+# - set a seed
+# - numeric, n
+# - sample, n
+# - function 1 
+# - function 2
+# - Maximum, M
+# - function 1 
+
+
+
+
+
 
 
 
