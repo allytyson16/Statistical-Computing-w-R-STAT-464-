@@ -642,10 +642,199 @@ curve(dexp(3*x^2, rate = theta),  add = TRUE, col="blue", lwd = 1.5)
 # - function 1 
 
 
+#steps for acceptance rejection algorithm
+# 1. Define the target distribution, f(x)
+# 2. Define the proposal distribution, g(x)  - advisable to choose an in-built function
+# 3. Compute the scaling constant, M 
+# 4. Initialize sampling
+#    - set the number of required samples, n
+#    - create an empty vector for accepted values
+#    - initialize a counter for accepted samples
+# 5. Begin Iterative sampling (while loop)
+#     - sample one variable from proposed distribution
+#     - sample one variable from the uniform distribution
+#     - accept y if u<= f(y)/ Mg(y)
+#     - iteration should continue till n samples are accepted
+# 6. Compare with True Distribution
+
+## CONTINUOUS DISTRIBUTION
+# sample standard normal X ~ N(0, 1) from exp(1) 
+## Target distribution, N(0, 1)
+f_x <- function(x)
+{
+  PDF <- dnorm(x, mean = 0, sd = 1)
+  return(PDF)
+}
+
+## Proposed distribution, X ~ Exp(1)
+g_x <- function(x)
+{
+  PDF <- ifelse(x>=0, dexp(x, rate = 1), 0)  # for other values of x is 0
+}
+
+# scaling constant, M
+M <-  sqrt(2* exp(1)/pi)
+
+# sampling initialization
+n <- 10000
+samples <- numeric(n)
+
+i <- 1
+
+# Accept-reject iteration
+while(i<=n)
+{
+  y <- rexp(1, rate =1)
+  u <- runif(1)
+  if(y<= (f_x(y))/(M * g_x(y)))
+  {
+    signs <- ifelse(runif(1)<0.5, -1, 1)
+    samples[i] <- signs * y
+    i <- i+1
+  }
+}
+
+hist(samples, probability = TRUE, col = "red")
+curve(f_x, add = TRUE, col = "green", lwd =2)
+legend ("topright", legend = c())
+
+
+
+
+
+####
+g_x <- function(x)
+{
+  PDF <- ifelse(x>=0, dexp(x, rate = 1), 0)  # for other values of x is 0
+}
+
+## Proposed distribution, X ~ Exp(1)
+f_x <- function(x)
+{
+  PDF <- dnorm(x, mean = 0, sd = 1)
+  return(PDF)
+}
+
+# scaling constant
+N <- max(g_x(seq(0, 4, by=0.1))/f_x(seq(0, 4, by=0.1)), na.rm = TRUE)
+
+n <- 10000
+samples_exp <- numeric(n)
+j <- 1
+
+
+while(j<=n)
+{
+  y <- rnorm(1, mean = 0, sd = 1)
+  u <- runif(1)
+  if(y<0)
+  {
+    next
+  }
+  if(u<=(g_x(y))/(N* f_x(y)))
+  {
+    samples_exp[j] <- j
+    j <- j+1
+  }
+}
+hist(samples, probability = TRUE, col = "red")
+curve(f_x, add = TRUE, col = "green", lwd =2)
+legend ("topright", legend = c("Accept-reject sample", ""),
+        col = c("red", "green"), lwd = 2, fill = c("red", "green"))
 
 
 
 
 
 
+##########LAPLACE DISTRIBUTION 
 
+
+###### DISCRETE DISTRIBUTION
+## TARGET = B(10, 0.4)
+## PROPOSED POISSON(4)
+
+#target distribution
+p_x <- function(x, n = 10, pr = 0.4)
+{
+  PMF <- ifelse(x>=0 & x<=10 & x == floor(x), choose(n, x)*pr^x *(1-pr)^(n-x), 0)
+  return(PMF)
+}
+
+#proposed distribution
+q_x <- function(x, lambda = 4)
+{
+  PMF <- ifelse(x>=0 & x == floor(x), dpois(x, lambda = lambda), 0)
+}
+
+##scaling constant
+M <- max(p_x(0:10)/ q_x(0:10), na.rm = TRUE)
+
+
+n <-  10000
+
+
+
+
+
+##Monte Carlo Integration in R
+#It is used for estimating definite integral
+
+#int
+
+int_1 <- function(x){
+  (3*x^2+2*x)
+}
+
+n <- 10000000
+
+a <- 1  #Lower limit
+b <- 3  #upper limit
+
+u <- runif(n, min = a, max = b)     # a random variable
+
+Int_est <- (b-a)*mean(int_1(u))
+
+
+integrate(int_1,a,b)
+
+
+int_2 <- function(x){
+  cos(x)
+}
+c <- (pi)/2
+d <- pi
+
+n <- 100000000
+uni <- runif(n, min = c, max = d)
+intest <- (d-c)*mean(int_2(uni))
+
+
+
+#Double Integral
+int_3 <- function(x,y){
+  2*x^2*y+3*x*y-x^2
+}
+
+a <- 1
+b <- 4
+c <- 0
+d <- 2
+
+
+uni_x <- runif(n, min = c, max = d)
+uni_y <- runif(n, min = a, max = b)
+
+int_test <- (b-a)*(d-c)*mean(int_3(uni_x, uni_y))
+
+
+#assignment
+# Use Accept-Reject to 
+# a. Sample Exp(2) from N(3,1) and N(2,1)
+# compute the acceptance rate
+
+# b. Sample B(10, 0.25) from Geom(0.2) and Neg Bin(k=4, p=0.25)
+
+
+##STATISTICAL INFERENCE
+#ESTIMATION
