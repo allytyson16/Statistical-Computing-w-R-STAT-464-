@@ -838,3 +838,76 @@ int_test <- (b-a)*(d-c)*mean(int_3(uni_x, uni_y))
 
 ##STATISTICAL INFERENCE
 #ESTIMATION
+# point estimation
+set.seed(132)
+sample_pois <- rpois(n=100, lambda = 5)
+lambda_hat <- mean(sample_pois)
+# or #ask ISSSSSSSSSSSSSSSSSSSSSS
+lambda_hat1 <- function(n, lambda)
+{
+  mean_pois <- sum(sample_pois)/n
+}
+print(lambda_hat1) 
+
+set.seed(132)
+est_theta_1 <- 50
+est_theta_2 <- 79
+n <-  1000
+sample_uniform <- runif(n, est_theta_1, est_theta_2)
+
+param <- function(x)
+{
+  theta1 <- mean(x) - sd(x)*sqrt(3)
+  theta2 <- mean(x) + sd(x)*sqrt(3)
+  estimates <- c(theta1, theta2)
+  names(sample_uniform) <- c("min parameter", "maximum parameter")
+  return (estimates)
+} 
+
+param(sample_uniform)
+
+hist(sample_uniform, )
+
+
+####MAXIMUM LIKELIHOOD
+#considered as consistent & efficient 
+##how to fit the MLE 
+## - using packages (fitdIstr) 
+##            1. load package
+##            2. 
+## - 
+
+set.seed(132)
+n <- 100
+sample_exp <- abs(rnorm(100, mean = 15, sd = 20))
+fit_exp <- fitdistr(sample_exp, densfun = "exponential")
+fit_exp$estimate
+fit_exp$sd
+hist(sample_exp, probability = TRUE)
+curve(dexp(x, rate = fit_exp$estimate), add = TRUE)
+
+set.seed(132)  
+fit_norm <- fitdistr(x=islands, densfun = "normal")
+fit_norm$estimate
+
+hist(islands, probability = T)
+curve(dexp(x, mean = fit_norm$estimate[1], sd = fit_norm$estimate[2]), add = T)
+
+fit_gamm <- fitdistr(x=islands, densfun = "gamma", start = list(0.3, 0.15))
+hist(islands, probability = TRUE)
+curve(dnorm(x, mean = fit_norm$estimate[1], sd=fit_norm$estimate[2]), add = TRUE, col ="red", lwd=2)
+curve(dexp(x, mean = fit_exp$estimate[1], rate = ), add = TRUE, col ="green", lwd=2)
+
+
+##
+library(fitdistrplus)
+data("islands")
+descdist(islands, boot = 5000)
+
+#generate/ transform it 
+#fit the lognormal distribution to the data
+
+#write likelihood function ourselves.
+
+
+
