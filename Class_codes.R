@@ -903,11 +903,43 @@ curve(dexp(x, mean = fit_exp$estimate[1], rate = ), add = TRUE, col ="green", lw
 library(fitdistrplus)
 data("islands")
 descdist(islands, boot = 5000)
-
+library(fitdistrplus)
 #generate/ transform it 
-#fit the lognormal distribution to the data
+#fit the lognormal distribution to the data(islands)
+fit_lnorm <- fitdist(data = islands, distr = "lnorm")
+plot(fit_lnorm)
+summary(fit_lnorm)
 
-#write likelihood function ourselves.
+#fit weibul distribution
+fit_weib <- fitdist(data = islands, distr = "weibull")
+summary(fit_weib)
+## the distribution with the lowest AIC best fits the data,
+## check the AIC for all distributions
+
+plot(fit_weib)
+
+#write likelihood function ourselves (poisson , bernoulli, normal, etc)
 
 
+##Optim - find minimum value of a function
+## STEPS:
+##    1. log-liklihood function
+##    2. call the optim, (since optim minimises, we negate the optim to 
+##                          return the maximum)
 
+##POISSON
+# xi ~ Pois(theta)
+# L(theta) = (theta ^ (sum xi) * exp^(-ntheta)) / pi(xi)!
+# L(theta) = sum xi ln(theta) -n(theta) -ln(pi xi)
+# l(theta) proportional to sum(xi) ln(theta) - ntheta
+
+pois_loglik <- function(x, theta)
+{
+  n <- length(x)
+  log_lik <- sum(x) * log(theta) - n*theta
+  return(-log_lik)
+}
+
+samp_pois <- rpois(100, lambda = 6)
+pois_mle <- optim(par = 1, fn = pois_loglik, x = samp_pois, 
+      method = "BFGS", hessian = TRUE) 
